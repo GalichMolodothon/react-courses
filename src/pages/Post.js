@@ -2,7 +2,6 @@ import React from 'react';
 import { getPost } from '../api'
 import { getUserById } from '../api'
 import { getCommentsByPostId } from '../api'
-import { Navigation } from '../components'
 
 import { Breadcrumbs } from '../components'
 import { Title } from '../modules/post/view'

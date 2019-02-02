@@ -1,13 +1,34 @@
- export function getPosts(params) {
-    let apiLink = `https://jsonplaceholder.typicode.com/posts?_limit=${params.limit}&_page=${params.page}&_sort=id&_order=${params.order}`;
-    if (params.search) {
-      apiLink = apiLink + `&q=${params.search}`;
+const API = 'https://jsonplaceholder.typicode.com'
+
+export function getData(path, options) {
+    let url = `${API + path}`;
+    let params = "";
+
+    if(options && options.hasOwnProperty('params')){
+        for (let key in options.params) {
+            if (params !== "") {
+                params += "&";
+            }
+            params += key + "=" + options.params[key];
+
+        }
+        url += `${params ? '?' + params : ''}`;
     }
-    
-    return fetch(apiLink)
-    .then(response => response.json())
-    .then(json => json)
+    console.log(url);
+    return fetch(url)
+        .then(response => {
+            return response.json().then(json =>{
+                return {
+                    json: json,
+                    headers: {
+                        total: response.headers.get('x-total-count') ? +response.headers.get('x-total-count') : json.length
+                    }
+                }
+            })
+        } )
+        .then(json => json);
 }
+
 
  export function getPhotos(params) {
      let apiLink = `https://jsonplaceholder.typicode.com/photos?_limit=${params.limit}&_page=${params.page}&_sort=id&_order=${params.order}`;

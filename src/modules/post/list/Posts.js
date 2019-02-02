@@ -5,6 +5,10 @@ import { Pagination } from '../../../components'
 import { Search } from '../../../components'
 
 export function Posts(props) {
+
+    console.log(props.pagination.limit,);
+    console.log(props.pagination.page);
+    console.log(props.total);
   let total = 100;
   let pages = Math.ceil(total / props.pagination.limit);
   return <main className="uk-main">
@@ -39,12 +43,20 @@ export function Posts(props) {
                 </div>
                     : "Item's not found"}
             
-            <Pagination 
-                onClickPaginationNext={props.onClickPaginationNext}
-                onClickPaginationPrev={props.onClickPaginationPrev}
-                onClickPagination={props.onClickPagination} 
-                pages={pages} 
-                pagination={props.pagination}
+            {/*<Pagination */}
+                {/*onClickPaginationNext={props.onClickPaginationNext}*/}
+                {/*onClickPaginationPrev={props.onClickPaginationPrev}*/}
+                {/*onClickPagination={props.onClickPagination} */}
+                {/*pages={pages} */}
+                {/*pagination={props.pagination}*/}
+            {/*/>*/}
+            <Pagination
+                onClickPagination={props.onClickPagination}
+                pagination={{
+                    limit: props.pagination.limit,
+                    page: props.pagination.page,
+                    total: props.total
+                }}
             />
         </div>
       </div>

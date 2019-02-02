@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { getPosts } from '../api'
+import { getData } from '../api'
 import { Posts } from '../modules/post/list'
 
 
@@ -11,12 +11,14 @@ export default class extends React.Component {
     this.state = {
       posts: [],
       order: 'asc',
+      sort: 'id',
       search: '',
       view:'grid',
       pagination: {
         limit: 6,
         page: 1
-      }
+      },
+      total: 0
     }
     
     this.onClickPagination = this.onClickPagination.bind(this);
@@ -24,20 +26,23 @@ export default class extends React.Component {
     this.onClickOrder = this.onClickOrder.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleView = this.handleView.bind(this);
-    this.onClickPaginationPrev = this.onClickPaginationPrev.bind(this);
-    this.onClickPaginationNext = this.onClickPaginationNext.bind(this);
+    // this.onClickPaginationPrev = this.onClickPaginationPrev.bind(this);
+    // this.onClickPaginationNext = this.onClickPaginationNext.bind(this);
   }
   
   componentDidMount() {
-    getPosts({
-        limit: this.state.pagination.limit,
-        page: this.state.pagination.page,
-        search: this.state.search,
-        order: this.state.order
+      getData('/posts', {
+        params: {
+            _limit: this.state.pagination.limit,
+            _page: this.state.pagination.page,
+            _search: this.state.search,
+            _order: this.state.order
+        }
     })
-    .then(posts => {
+    .then(data => {
         this.setState({
-            posts: posts
+            posts: data.json,
+            total: data.headers.total
         })
     })
   }
@@ -46,101 +51,60 @@ export default class extends React.Component {
       
     let value = event.target.value;
 
-    getPosts({
-        limit: value,
-        page: this.state.pagination.page,
-        search: this.state.search,
-        order: this.state.order
+    getData('/posts', {
+        params: {
+            _limit: value,
+            _page: this.state.pagination.page,
+            _search: this.state.search,
+            _sort: this.state.sort,
+            _order: this.state.order
+        }
     })
-    .then(posts => {
+    .then(data => {
         this.setState({
             order: this.state.order,
             search: this.state.search,
-            pagination: {
-                limit: value,
-                page: this.state.pagination.page
-            },
-            posts: posts
+            posts: data.json,
+            pagination: {...this.state.pagination, ...{ limit: value }}
         })
     })
   }
-  
-  onClickPaginationPrev(value) {
-        if (this.state.pagination.page !== 1) {
 
-            getPosts({
-                limit: this.state.pagination.limit,
-                page: this.state.pagination.page - value,
-                order: this.state.order,
-                search: this.state.search
-            })
-                .then(posts => {
-                    this.setState({
-                        pagination: {
-                            limit: this.state.pagination.limit,
-                            page: this.state.pagination.page - value
-                        },
-                        posts: posts
-                    })
-                })
-        } else {
-            return true;
-        }
-    }
-
-    onClickPaginationNext(value, pages) {
-
-        if (pages !== this.state.pagination.page) {
-            getPosts({
-                limit: this.state.pagination.limit,
-                page: this.state.pagination.page + value,
-                order: this.state.order,
-                search: this.state.search
-            })
-                .then(posts => {
-                    this.setState({
-                        pagination: {
-                            limit: this.state.pagination.limit,
-                            page: this.state.pagination.page + value,
-                        },
-                        posts: posts
-                    })
-                })
-        } else {
-            return true;
-        }
-    }
-  
   onClickPagination(current) {
 
-    getPosts({
-        limit: this.state.pagination.limit,
-        page: current,
-        search: this.state.search,
-        order: this.state.order
+    getData('/posts', {
+        params: {
+            _limit: this.state.pagination.limit,
+            _page: current,
+            _sort: this.state.sort,
+            _order: this.state.order
+        }
     })
-    .then(posts => {
-        this.setState({
-            order: this.state.order,
-            search: this.state.search,
-            pagination: {
-                limit: this.state.pagination.limit,
-                page: current,
-            },
-            posts: posts
+        .then(data => {
+            console.log(data.json);
+            this.setState({
+                order: this.state.order,
+                posts: data.json,
+                search: this.state.search,
+                pagination: {...this.state.pagination, ...{ page: current }}
+            })
         })
-    })
+
+
   }
   
   onClickOrder(event) {  
     let value = event.target.value;
-    getPosts({
-        limit: this.state.pagination.limit,
-        search: this.state.search,
-        page: this.state.pagination.page,
-        order: value
+    getData('/posts', {
+        params: {
+            _limit: this.state.pagination.limit,
+            _search: this.state.search,
+            _page: this.state.pagination.page,
+            _sort: this.state.sort,
+            _order: value
+        }
     })
-    .then(posts => {
+    .then(data => {
         this.setState({
             order: value,
             search: this.state.search,
@@ -148,7 +112,7 @@ export default class extends React.Component {
                 limit: this.state.pagination.limit,
                 page: this.state.pagination.page
             },
-            posts: posts
+            posts: data.json
         })
     })
   }
@@ -156,11 +120,13 @@ export default class extends React.Component {
   handleSearch(event) {
     let searchValue = event.target.value;
     if (event.key === 'Enter') {
-        getPosts({
-            limit: this.state.pagination.limit,
-            search: searchValue,
-            page: this.state.pagination.page,
-            order: this.state.order
+        getData('/posts', {
+            params: {
+                _limit: this.state.pagination.limit,
+                _search: searchValue,
+                _page: this.state.pagination.page,
+                _order: this.state.order
+            }
         })
         .then(posts => {
             this.setState({
@@ -183,7 +149,21 @@ export default class extends React.Component {
   
   render() {    
     return <div>
-        {this.state.posts.length ? <Posts onClickPaginationNext={this.onClickPaginationNext} onClickPaginationPrev={this.onClickPaginationPrev} handleView={this.handleView} view={this.state.view} handleSearch={this.handleSearch} search={this.state.search} onClickOrder={this.onClickOrder} onClickLimit={this.onClickLimit} onClickPagination={this.onClickPagination} pagination={this.state.pagination} order={this.state.order} posts={this.state.posts}/> : 'Loading'}
+        {this.state.posts.length    ? <Posts
+            onClickPaginationNext={this.onClickPaginationNext}
+            onClickPaginationPrev={this.onClickPaginationPrev}
+            handleView={this.handleView}
+            view={this.state.view}
+            handleSearch={this.handleSearch}
+            search={this.state.search}
+            onClickOrder={this.onClickOrder}
+            onClickLimit={this.onClickLimit}
+            onClickPagination={this.onClickPagination}
+            pagination={this.state.pagination}
+            order={this.state.order}
+            posts={this.state.posts}
+            total={this.state.total}
+        /> : 'Loading'}
     </div>
   }
 }
