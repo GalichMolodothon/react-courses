@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { Navigation } from '../components'
 import { Photos } from '../modules/photos/list'
+import { getPhotos } from '../api'
 
 
 export default class extends React.Component {
@@ -9,13 +9,28 @@ export default class extends React.Component {
     super(props);
     
     this.state = {
+        photos: [],
+        limit: 6,
+        page:1
     } 
     
+  }
+
+  componentDidMount() {
+      getPhotos({
+          limit: this.state.limit,
+          page: this.state.page,
+      })
+          .then(photos => {
+              this.setState({
+                  photos: photos
+              })
+          })
   }
   
   render() {    
     return <div>
-        <Photos />
+        <Photos photos={this.state.photos}/>
     </div>
   }
 }

@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { Photo } from './Photo'
-import { Pagination } from '../../../components'
 import { Search } from '../../../components'
 
 export function Photos(props) {
@@ -17,7 +16,7 @@ export function Photos(props) {
                         <option value="3">Album 3</option>
                     </select>
                 </div>
-                <Photo />
+                <Photo photos={props.photos} />
                 <ul className="uk-more uk-text-center uk-margin-medium-top">
                     <button className="uk-button uk-button-primary">
                         Load more 

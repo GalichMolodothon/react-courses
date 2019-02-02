@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { Album } from './Album'
-import { Pagination } from '../../../components'
 import { Search } from '../../../components'
 
 export function Albums(props) {
@@ -18,7 +17,7 @@ export function Albums(props) {
                         </select>
 
                     </div>
-                    <Album />
+                    <Album albums={props.albums} onClickGetPhoto={props.onClickGetPhoto} albumPhotos={props.albumPhotos}/>
                     <ul className="uk-pagination uk-flex-center" uk-margin>
                         <li><a href="#"><span uk-pagination-previous></span></a></li>
                         <li><a href="#">{1}</a></li>

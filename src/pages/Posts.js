@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { getPosts } from '../api'
-import { Navigation } from '../components'
 import { Posts } from '../modules/post/list'
 
 
@@ -18,7 +17,7 @@ export default class extends React.Component {
         limit: 6,
         page: 1
       }
-    } 
+    }
     
     this.onClickPagination = this.onClickPagination.bind(this);
     this.onClickLimit = this.onClickLimit.bind(this);
