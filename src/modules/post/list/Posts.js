@@ -5,12 +5,6 @@ import { Pagination } from '../../../components'
 import { Search } from '../../../components'
 
 export function Posts(props) {
-
-    console.log(props.pagination.limit,);
-    console.log(props.pagination.page);
-    console.log(props.total);
-  let total = 100;
-  let pages = Math.ceil(total / props.pagination.limit);
   return <main className="uk-main">
       <div className="uk-section">
         <div className="uk-container">
@@ -42,14 +36,6 @@ export function Posts(props) {
                     {props.posts.map((post, index) => <div key={post.id}><Post view={props.view} data={post}/></div>)}
                 </div>
                     : "Item's not found"}
-            
-            {/*<Pagination */}
-                {/*onClickPaginationNext={props.onClickPaginationNext}*/}
-                {/*onClickPaginationPrev={props.onClickPaginationPrev}*/}
-                {/*onClickPagination={props.onClickPagination} */}
-                {/*pages={pages} */}
-                {/*pagination={props.pagination}*/}
-            {/*/>*/}
             <Pagination
                 onClickPagination={props.onClickPagination}
                 pagination={{

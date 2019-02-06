@@ -1,34 +1,28 @@
 import React from 'react'
 import UIkit from 'uikit'
-
-
+import { getData } from "../../../api";
 
 export function Album(props) {
 
     function onClickAlbum(event, albumId) {
-        props.onClickGetPhoto(albumId);
         event.preventDefault();
-        let photoArray = [];
-        // if (props.albumPhotos.length > 0) {
-        //     props.albumPhotos.map((value) => {
-        //         photoArray.push({source:`${value.url}.jpg`, caption:value.title})
-        //     });
-        //     console.log(photoArray);
-        // }
-        if (props.albumPhotos.length > 0) {
-            props.albumPhotos.map((value) => {
-                photoArray.push({source:`${value.url}.jpg`, caption:value.title})
-            });
+        getData('/photos', {
+            params: {
+                albumId: albumId
+            }
+        })
+        .then(data => {
+            const photos = data.json;
             UIkit.lightboxPanel({
-                items: photoArray
+                items:photos.map((photo, index) => {
+                    return {
+                        source: `${photo.url}.jpg`,
+                        caption: `${index} - ${photo.title}`
+                    }
+                })
+
             }).show();
-        }
-        // UIkit.lightboxPanel({
-        //     items: [
-        //         {source: 'https://getuikit.com/assets/uikit/tests/images/size1.jpg', caption: 'Caption 1'},
-        //         {source: 'https://getuikit.com/assets/uikit/tests/images/size2.jpg', caption: 'Caption 2'},
-        //     ]
-        // }).show();
+        });
     }
     return <table className="uk-table uk-table-justify uk-table-divider">
                 <tbody>

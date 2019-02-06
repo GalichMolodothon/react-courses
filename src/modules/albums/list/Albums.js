@@ -8,26 +8,26 @@ export function Albums(props) {
             <div className="uk-section">
                 <div className="uk-container">
                     <div className="uk-margin-medium-bottom uk-flex">
-                        <Search />
-                        <select className="uk-select uk-width-small uk-margin-left">
-                            <option value="all">All</option>
-                            <option value="1">User 1</option>
-                            <option value="2">User 2</option>
-                            <option value="3">User 3</option>
+                        <form className="uk-width-medium uk-margin-auto-right">
+                            <input
+                                className="uk-input"
+                                type="search"
+                                value={props.q}
+                                onChange={props.handlerSearch}
+                                placeholder="Search..."
+                            />
+                        </form>
+                        <select className="uk-select uk-width-small uk-margin-left"
+                                value={props.userId}
+                                onChange={props.handleUser}
+                                disabled={props.users.length > 0 ? false : true}>
+                            <option value="">All</option>
+                            {props.users.map(user => {
+                                return <option key={user.id} value={user.id}>{user.name}</option>
+                            })}
                         </select>
-
                     </div>
-                    <Album albums={props.albums} onClickGetPhoto={props.onClickGetPhoto} albumPhotos={props.albumPhotos}/>
-                    <ul className="uk-pagination uk-flex-center" uk-margin>
-                        <li><a href="#"><span uk-pagination-previous></span></a></li>
-                        <li><a href="#">{1}</a></li>
-                        <li className="uk-disabled"><span>{'...'}</span></li>
-                        <li><a href="#">{5}</a></li>
-                        <li><a href="#">{6}</a></li>
-                        <li className="uk-active"><span>7</span></li>
-                        <li><a href="#">{8}</a></li>
-                        <li><a href="#"><span uk-pagination-next></span></a></li>
-                    </ul>
+                    <Album albums={props.albums} />
                 </div>
             </div>
         </main>

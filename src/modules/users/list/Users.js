@@ -1,10 +1,8 @@
 import React from 'react'
 
 import { User } from './User'
-import { Pagination } from '../../../components'
-import { Search } from '../../../components'
 
-export function Users(props) {
+export function Users() {
     return <main className="uk-main">
             <div className="uk-section">
                 <div className="uk-container">
