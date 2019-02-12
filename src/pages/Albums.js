@@ -100,14 +100,14 @@ export default class extends React.Component {
                 q: q
             }
         })
-            .then(data => {
-                this.setState({
-                    albums: data.json,
-                    total: data.headers.total,
-                    pagination: {...this.state.pagination, ...{ page: 1 }},
-                    q: q
-                })
+        .then(data => {
+            this.setState({
+                albums: data.json,
+                total: data.headers.total,
+                pagination: {...this.state.pagination, ...{ page: 1 }},
+                q: q
             })
+        })
     }
 
     render() {

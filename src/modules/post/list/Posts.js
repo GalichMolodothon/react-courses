@@ -20,10 +20,10 @@ export function Posts(props) {
                     <option value="24">24</option>
                 </select>
                <div className="uk-button-group uk-margin-left">
-                        <button onClick={props.handleView} value='grid' className={`uk-button uk-button-default` + ` ${props.view === 'grid' ? 'uk-active' : ''}`}>
+                        <button onClick={props.handleView} value='grid' className={`uk-button uk-button-default ${props.view === 'grid' ? 'uk-active' : ''}`}>
                             <span uk-icon="icon:grid"></span>
                         </button>
-                        <button onClick={props.handleView} value='list' className={`uk-button uk-button-default ` + ` ${props.view === 'list' ? 'uk-active' : ''}`}>
+                        <button onClick={props.handleView} value='list' className={`uk-button uk-button-default ${props.view === 'list' ? 'uk-active' : ''}`}>
                             <span uk-icon="icon:list"></span>
                         </button>
                     </div>

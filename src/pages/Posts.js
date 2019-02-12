@@ -19,7 +19,7 @@ export default class extends React.Component {
         page: 1
       },
       total: 0
-    }
+    };
     
     this.onClickPagination = this.onClickPagination.bind(this);
     this.onClickLimit = this.onClickLimit.bind(this);
@@ -81,7 +81,6 @@ export default class extends React.Component {
         }
     })
         .then(data => {
-            console.log(data.json);
             this.setState({
                 order: this.state.order,
                 posts: data.json,
@@ -116,30 +115,27 @@ export default class extends React.Component {
         })
     })
   }
-  
+
   handleSearch(event) {
-    let searchValue = event.target.value;
-    if (event.key === 'Enter') {
-        getData('/posts', {
-            params: {
-                _limit: this.state.pagination.limit,
-                _search: searchValue,
-                _page: this.state.pagination.page,
-                _order: this.state.order
-            }
-        })
-        .then(posts => {
-            this.setState({
-                order: this.state.order,
-                search: searchValue,
-                pagination: {
-                    limit: this.state.pagination.limit,
-                    page: this.state.pagination.page
-                },
-                posts: posts
-            })
-        })
-    }    
+      let q = event.target.value;
+
+      getData('/posts', {
+          params: {
+              _limit: this.state.pagination.limit,
+              _page: 1,
+              _sort: this.state.sort,
+              _order: this.state.order,
+              q: q
+          }
+      })
+      .then(data => {
+          this.setState({
+              posts: data.json,
+              total: data.headers.total,
+              pagination: {...this.state.pagination, ...{ page: 1 }},
+              search: q
+          })
+      })
   }
   
   handleView(event) {
@@ -149,7 +145,7 @@ export default class extends React.Component {
   
   render() {    
     return <div>
-        {this.state.posts.length    ? <Posts
+        <Posts
             onClickPaginationNext={this.onClickPaginationNext}
             onClickPaginationPrev={this.onClickPaginationPrev}
             handleView={this.handleView}
@@ -163,7 +159,7 @@ export default class extends React.Component {
             order={this.state.order}
             posts={this.state.posts}
             total={this.state.total}
-        /> : 'Loading'}
+        />
     </div>
   }
 }

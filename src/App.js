@@ -1,5 +1,5 @@
 import React from "react";
-import {Switch, Route} from 'react-router-dom';
+import {Route} from 'react-router-dom';
 
 import Post from './pages/Post'
 import Posts from './pages/Posts'
@@ -13,13 +13,13 @@ export default class App extends React.Component {
         return (
             <div>
                 <Navigation />
-                <Switch>
+                {/*<Switch>*/}
                     <Route exact path="/posts" component={Posts} />
                     <Route path="/users" component={Users} />
                     <Route path="/photos" component={Photos} />
                     <Route path="/albums" component={Albums} />
                     <Route path='/posts/:id' component={Post}/>
-                </Switch>
+                {/*</Switch>*/}
             </div>
         );
     }

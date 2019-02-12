@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { Album } from './Album'
-import { Search } from '../../../components'
 
 export function Albums(props) {
     return <main className="uk-main">

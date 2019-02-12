@@ -55,7 +55,7 @@ export default class extends React.Component {
             <main className="uk-main">
                 <div className="uk-section">
                     <div className="uk-container">
-                        <Breadcrumbs/>
+                        <Breadcrumbs url={this.props.match.url}/>
                         <Title post={this.state.post} author={this.state.author.name}/>
                         <Content post={this.state.post}/>
                         <Comments comments={this.state.comments}/>

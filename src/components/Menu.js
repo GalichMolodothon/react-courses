@@ -1,12 +1,5 @@
 import React from 'react'
-import {Switch, Route, Link} from 'react-router-dom';
-
-import { Posts } from '../pages/Posts'
-import { Users } from '../pages/Users'
-import { Photos } from '../pages/Photos'
-import { Albums } from '../pages/Albums'
-//import { Todos } from '../pages/Todos'
-//import { Comments } from '../pages/Comments'
+import { Link } from 'react-router-dom';
 
 export function Menu() {
   return <div>

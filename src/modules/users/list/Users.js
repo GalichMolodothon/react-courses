@@ -1,22 +1,21 @@
 import React from 'react'
 
 import { User } from './User'
+import { Pagination } from '../../../components'
 
-export function Users() {
+export function Users(props) {
     return <main className="uk-main">
             <div className="uk-section">
                 <div className="uk-container">
-                    <User />
-                    <ul className="uk-pagination uk-flex-center" uk-margin>
-                            <li><a href="#"><span uk-pagination-previous></span></a></li>
-                            <li><a href="#">1</a></li>
-                            <li className="uk-disabled"><span>...</span></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">6</a></li>
-                            <li className="uk-active"><span>7</span></li>
-                            <li><a href="#">8</a></li>
-                            <li><a href="#"><span uk-pagination-next></span></a></li>
-                        </ul>
+                    <User users={props.users}/>
+                    <Pagination
+                        onClickPagination={props.onClickPagination}
+                        pagination={{
+                            limit: props.pagination.limit,
+                            page: props.pagination.page,
+                            total: props.total
+                        }}
+                    />
                 </div>
             </div>
         </main>

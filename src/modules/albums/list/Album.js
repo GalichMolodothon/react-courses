@@ -36,9 +36,9 @@ export function Album(props) {
                                         {value.title}
                                     </td>
                                     <td>
-                                        <a onClick={(e) => onClickAlbum(e, value.id)} href="#" className="uk-button uk-button-primary js-lightbox" styles={'white-space: nowrap'}>
+                                        <button onClick={(e) => onClickAlbum(e, value.id)} className="uk-button uk-button-primary js-lightbox" styles={'white-space: nowrap'}>
                                             Open album
-                                        </a>
+                                        </button>
                                     </td>
                                 </tr>
                             )
